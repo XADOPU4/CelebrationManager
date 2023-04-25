@@ -1,4 +1,4 @@
-create table UserType
+create table Role
 (
     id   bigint primary key generated always as identity,
     name text unique not null
@@ -11,7 +11,7 @@ create table "user"
     code        text unique not null,
     login       text unique not null,
     phoneNumber text unique,
-    userTypeId  bigint references UserType (id),
+    roleId      bigint references role (id),
     password    text        not null,
     email       text unique not null,
     isActive    bool default true
@@ -24,6 +24,11 @@ create table UserInfo
     name               text not null,
     contactPhoneNumber text unique,
     description        text,
+    country            text,
+    region             text,
+    city               text,
+    street             text,
+    house              text,
     dateOfBirth        date,
     rating             decimal default 0.0,
     status             text
@@ -141,4 +146,3 @@ create table Comment
 --     status for comment is approved/banned/pending
     creationDate date    default now()
 );
-
