@@ -6,6 +6,8 @@ import com.eventmanager.coreservicediploma.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -15,6 +17,9 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public List<User> getUsers(){
+        return userRepository.findAll();
+    }
     public User getUserByLogin(String login){
         return userRepository.findUserByLogin(login);
     }

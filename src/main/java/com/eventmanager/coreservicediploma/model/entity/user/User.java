@@ -5,6 +5,10 @@ import com.eventmanager.coreservicediploma.model.entity.userevent.UserEvent;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import java.util.List;
 import java.util.Objects;
@@ -35,7 +39,6 @@ import java.util.Objects;
                 @NamedAttributeNode(value = "role"),
                 @NamedAttributeNode(value = "userInfo"),
                 @NamedAttributeNode(value = "events"),
-                @NamedAttributeNode(value = "calendars"),
                 @NamedAttributeNode(value = "isActive")
         })
 })

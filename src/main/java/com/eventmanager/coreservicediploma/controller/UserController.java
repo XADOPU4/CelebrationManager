@@ -2,10 +2,13 @@ package com.eventmanager.coreservicediploma.controller;
 
 import com.eventmanager.coreservicediploma.model.entity.user.User;
 import com.eventmanager.coreservicediploma.model.entity.user.dto.UserAuthDto;
+import com.eventmanager.coreservicediploma.model.entity.user.dto.UserDto;
 import com.eventmanager.coreservicediploma.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -25,6 +28,24 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(UserAuthDto.toDto(user));
+    }
+
+    @GetMapping("login/all")
+    public ResponseEntity<List<UserAuthDto>> loginAll(){
+        List<User> users = userService.getUsers();
+        if (users == null){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(users.stream().map(UserAuthDto::toDto).toList());
+    }
+
+    @GetMapping("all")
+    public ResponseEntity<List<UserDto>> all(){
+        List<User> users = userService.getUsers();
+        if (users == null){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(users.stream().map(UserDto::toDto).toList());
     }
 
     @PostMapping

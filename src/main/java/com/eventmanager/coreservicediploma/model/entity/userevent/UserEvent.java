@@ -4,6 +4,8 @@ import com.eventmanager.coreservicediploma.model.entity.event.Event;
 import com.eventmanager.coreservicediploma.model.entity.user.User;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Data
 @Entity
@@ -13,7 +15,7 @@ public class UserEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userid")
     private User user;
     @ManyToOne

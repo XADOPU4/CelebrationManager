@@ -1,11 +1,13 @@
 package com.eventmanager.coreservicediploma.model.entity.user.dto;
 
 import com.eventmanager.coreservicediploma.model.entity.user.User;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
+@NoArgsConstructor
 public class UserAuthDto {
     private Long id;
     private String code;
@@ -16,8 +18,21 @@ public class UserAuthDto {
     private String email;
     private Boolean isActive;
 
+    @Builder(builderMethodName = "authBuilder")
+    public UserAuthDto(Long id, String code, String login, String password, RoleDto role, String phoneNumber, String email, Boolean isActive)
+    {
+        this.id = id;
+        this.code = code;
+        this.login = login;
+        this.password = password;
+        this.role = role;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.isActive = isActive;
+    }
+
     public static UserAuthDto toDto(User user) {
-        return UserAuthDto.builder()
+        return UserAuthDto.authBuilder()
                 .id(user.getId())
                 .code(user.getCode())
                 .login(user.getLogin())
