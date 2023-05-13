@@ -44,7 +44,6 @@ create table EventType
 create table Event
 (
     id           bigint primary key generated always as identity,
-    code         text unique not null,
     name         text        not null,
     eventTypeId  bigint references eventType (id),
     description  text,

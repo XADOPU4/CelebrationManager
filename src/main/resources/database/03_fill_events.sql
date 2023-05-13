@@ -4,21 +4,21 @@ VALUES ('Свадьба'),
        ('Детский день рождения'),
        ('Юбилей 50+');
 
-INSERT INTO event(code,
+INSERT INTO event(
                   name,
                   eventtypeid,
                   description,
                   actdate,
                   enddate,
                   status)
-VALUES ('EV1',
+VALUES (
         'Свадьба такс',
         (SELECT id FROM eventtype WHERE eventtype.name = 'Свадьба'),
         'Очень дорогая свадьба!!!',
         '31.12.2023',
         null,
         'CREATED'),
-       ('EV2',
+       (
         'День рождения Споти',
         (SELECT id FROM eventtype WHERE eventtype.name = 'Детский день рождения'),
         'День рождения маленького пса, нужно всё в ажуре!!!',

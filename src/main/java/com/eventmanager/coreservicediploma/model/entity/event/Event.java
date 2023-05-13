@@ -12,12 +12,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
 import jakarta.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
@@ -27,7 +32,9 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "event")
 public class Event {
@@ -35,12 +42,6 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "code", unique = true)
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(
-            name = "uuid",
-            strategy = "com.eventmanager.coreservicediploma.model.entity.generator.CodeGenerator")
-    private String code;
     @Column(name = "name")
     private String name;
     @Column(name = "description")
@@ -48,6 +49,7 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "eventtypeid", referencedColumnName = "id")
     private EventType type;
+    @CreationTimestamp
     @Column(name = "creationdate")
     private Date createdDate;
     @Column(name = "actdate")
