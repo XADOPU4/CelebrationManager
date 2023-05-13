@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,12 +18,11 @@ import java.util.Objects;
 public class UserInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
     @OneToOne
-    @MapsId
     @JoinColumn(name = "userid")
     @ToString.Exclude
-    @JsonIgnore
     private User user;
     @Column(name = "name")
     private String name;
@@ -38,6 +38,16 @@ public class UserInfo {
     private Location location;
     @Column(name = "dateofbirth")
     private Date birthDate;
+
+    @ManyToMany
+    @JoinTable(name = "userinfospecification",
+    joinColumns = {
+            @JoinColumn(name = "userinfoid")
+    }, inverseJoinColumns = {
+            @JoinColumn(name = "specid")
+    })
+    @ToString.Exclude
+    private List<Specification> specifications;
 
     @Override
     public boolean equals(Object o) {

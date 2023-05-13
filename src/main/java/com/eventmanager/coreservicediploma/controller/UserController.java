@@ -1,7 +1,8 @@
 package com.eventmanager.coreservicediploma.controller;
 
 import com.eventmanager.coreservicediploma.model.entity.user.User;
-import com.eventmanager.coreservicediploma.model.entity.user.dto.UserAuthDto;
+import com.eventmanager.coreservicediploma.model.entity.user.dto.UserDetailedDto;
+import com.eventmanager.coreservicediploma.model.entity.user.dto.auth.UserAuthDto;
 import com.eventmanager.coreservicediploma.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,15 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(UserAuthDto.toDto(user));
+    }
+
+    @GetMapping("detailed")
+    public ResponseEntity<UserDetailedDto> getDetailed(@RequestParam(name = "id") Long id){
+        User user = userService.getUserDetailed(id);
+        if (user == null){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(UserDetailedDto.toDto(user));
     }
 
     @PostMapping

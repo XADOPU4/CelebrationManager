@@ -35,7 +35,8 @@ import java.util.Objects;
                 @NamedAttributeNode(value = "role"),
                 @NamedAttributeNode(value = "userInfo"),
                 @NamedAttributeNode(value = "events"),
-                @NamedAttributeNode(value = "calendars"),
+                @NamedAttributeNode(value = "phoneNumber"),
+                @NamedAttributeNode(value = "email"),
                 @NamedAttributeNode(value = "isActive")
         })
 })
@@ -49,7 +50,7 @@ public class User {
     @Column(name = "login", unique = true)
     private String login;
     @OneToOne(mappedBy = "user")
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "id")
     private UserInfo userInfo;
     @Column(name = "password")
     private String password;
