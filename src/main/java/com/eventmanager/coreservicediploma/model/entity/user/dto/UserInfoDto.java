@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Data
 @Builder
 @Slf4j
-public class UserInfoDto{
+public class UserInfoDto {
     private String name;
     private String contactPhoneNumber;
     private Double rating;
@@ -25,25 +25,38 @@ public class UserInfoDto{
     private List<SpecificationDto> specifications;
 
     public static UserInfoDto toDto(UserInfo userInfo) {
-        if (userInfo == null){
+        if (userInfo == null) {
             log.warn("UserInfo was null, nothing to convert!");
             return null;
         }
-        return UserInfoDto.builder()
+        UserInfoDtoBuilder builder = UserInfoDto.builder()
                 .name(userInfo.getName())
                 .contactPhoneNumber(userInfo.getContactPhoneNumber())
                 .rating(userInfo.getRating())
                 .status(userInfo.getStatus())
                 .description(userInfo.getDescription())
                 .location(userInfo.getLocation())
-                .birthDate(userInfo.getBirthDate())
-                .specifications(userInfo.getSpecifications().stream()
-                        .map(SpecificationDto::toDto).collect(Collectors.toList()))
-                .build();
+                .birthDate(userInfo.getBirthDate());
+
+        if (userInfo.getSpecifications() != null) {
+            builder.specifications(userInfo.getSpecifications().stream()
+                    .map(SpecificationDto::toDto).collect(Collectors.toList()));
+        }
+        return builder.build();
     }
 
     public static UserInfo fromDto(UserInfoDto dto) {
-        // TODO: 10.05.2023 fix
-        return null;
+        if (dto == null) {
+            log.warn("UserInfoDto was null, nothing to convert!");
+            return null;
+        }
+        return UserInfo.builder()
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .contactPhoneNumber(dto.getContactPhoneNumber())
+                .status(dto.getStatus())
+                .birthDate(dto.getBirthDate())
+                .location(dto.getLocation())
+                .build();
     }
 }

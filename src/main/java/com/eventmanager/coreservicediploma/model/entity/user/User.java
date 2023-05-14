@@ -3,6 +3,8 @@ package com.eventmanager.coreservicediploma.model.entity.user;
 import com.eventmanager.coreservicediploma.model.entity.calendar.Calendar;
 import com.eventmanager.coreservicediploma.model.entity.userevent.UserEvent;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -63,13 +65,11 @@ public class User {
     @ToString.Exclude
     private List<UserEvent> events;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @ToString.Exclude
-    private List<Calendar> calendars;
-
     @Column(name = "phonenumber", unique = true)
+    @Pattern(regexp = "^[+]\\d{1,3}-\\d{3}-\\d{3}-\\d{4}$")
     private String phoneNumber;
     @Column(name = "email", unique = true)
+    @Email
     private String email;
     @Column(name = "isactive")
     private Boolean isActive;

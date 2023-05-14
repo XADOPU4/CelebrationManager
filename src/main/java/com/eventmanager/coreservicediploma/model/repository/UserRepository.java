@@ -7,10 +7,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
+    boolean existsUserById(Long id);
+
     @EntityGraph(value = "auth", type = EntityGraph.EntityGraphType.FETCH)
     User findUserByLogin(String login);
 
     @EntityGraph(value = "business", type = EntityGraph.EntityGraphType.FETCH)
     User findUserById(Long id);
+
+
 
 }
