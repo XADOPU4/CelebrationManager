@@ -74,7 +74,7 @@ public class ResourceController {
     @PostMapping("fact")
     public ResponseEntity<ResourceFactDto> createFactResource(@RequestParam(name = "resourceId") Long resourceId,
                                                               @RequestParam(name = "userId") Long userId,
-                                                              @RequestParam(name = "event") Long eventId,
+                                                              @RequestParam(name = "eventId") Long eventId,
                                                               @RequestParam(name = "quantity") Integer quantity) {
         ResourceFact resourceFact = resourceService.createResourceFact(resourceId, userId, eventId, quantity);
         return ResponseEntity.status(HttpStatus.OK).body(ResourceFactDto.toDto(resourceFact));
