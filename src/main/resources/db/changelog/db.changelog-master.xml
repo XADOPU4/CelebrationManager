@@ -22,4 +22,7 @@
     <changeSet id="04_alter_usertostuff_table" author="Daniil Xadopu4">
         <sqlFile path="database/04_alter_usertostuff_table.sql"/>
     </changeSet>
+    <changeSet id="05_fill_resources" author="Daniil Xadopu4">
+        <sqlFile path="database/05_fill_resources.sql"/>
+    </changeSet>
 </databaseChangeLog>

@@ -251,6 +251,166 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Resource",
+			"item": [
+				{
+					"name": "All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/resource",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"resource"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Event Resources",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/resource/fact?eventId=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"resource",
+								"fact"
+							],
+							"query": [
+								{
+									"key": "eventId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add To Event",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/resource/fact?resourceId=1&userId=3&quantity=10",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"resource",
+								"fact"
+							],
+							"query": [
+								{
+									"key": "resourceId",
+									"value": "1"
+								},
+								{
+									"key": "userId",
+									"value": "3"
+								},
+								{
+									"key": "quantity",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add To User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/resource/user?resourceId=1&userId=3&quantity=10",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"resource",
+								"user"
+							],
+							"query": [
+								{
+									"key": "resourceId",
+									"value": "1"
+								},
+								{
+									"key": "userId",
+									"value": "3"
+								},
+								{
+									"key": "quantity",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Resources",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/resource/user?userId=3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"resource",
+								"user"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"name\": \"Вилки одноразовые\",\r\n        \"price\": 0.25,\r\n        \"category\": {\r\n            \"id\": 1,\r\n            \"name\": \"Одноразовая посуда\",\r\n            \"type\": \"DISPOSABLE\"\r\n        }\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/resource",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"resource"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
