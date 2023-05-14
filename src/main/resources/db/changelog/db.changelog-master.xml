@@ -7,7 +7,16 @@
 		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
 		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
-
-
-
+    <changeSet id="00_create_schema" author="Daniil Xadopu4">
+        <sqlFile path="database/00_create_schema.sql"/>
+    </changeSet>
+    <changeSet id="01_add_user_specification" author="Daniil Xadopu4">
+        <sqlFile path="database/01_add_user_specification.sql"/>
+    </changeSet>
+    <changeSet id="02_fill_users" author="Daniil Xadopu4">
+        <sqlFile path="database/02_fill_users.sql"/>
+    </changeSet>
+    <changeSet id="03_fill_events" author="Daniil Xadopu4">
+        <sqlFile path="database/03_fill_events.sql"/>
+    </changeSet>
 </databaseChangeLog>
