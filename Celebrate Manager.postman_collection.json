@@ -1,0 +1,256 @@
+{
+	"info": {
+		"_postman_id": "f22285a5-9d36-42f9-8a9b-8015b2c7a725",
+		"name": "Celebrate Manager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Info",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Client Petrov\",\r\n    \"contactPhoneNumber\": \"+7-999-888-1117\",\r\n    \"status\": \"I'm using Celebration Manager\",\r\n    \"location\": {\r\n        \"country\": \"Russia\",\r\n        \"region\": \"Bryanskaya oblast\",\r\n        \"city\": \"Bryansk\",\r\n        \"street\": \"Lenina\",\r\n        \"house\": \"123\"\r\n    },\r\n    \"birthDate\": \"2023-05-13T21:00:00.000+00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/user/info?userId=2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"user",
+										"info"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/login?login=xadopu4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "login",
+									"value": "xadopu4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"code\": \"XXXX1\",\r\n    \"login\": \"xadopu4\",\r\n    \"password\": \"pASSw0rd\",\r\n    \"role\": {\r\n        \"id\": 1,\r\n        \"name\": \"ADMIN\"\r\n    },\r\n    \"phoneNumber\": \"+79998881111\",\r\n    \"email\": \"danya.khadorich228@yandex.ru\",\r\n    \"isActive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"code\": \"XXXX1\",\r\n    \"login\": \"xadopu4\",\r\n    \"password\": \"pASSw0rd\",\r\n    \"role\": {\r\n        \"id\": 1,\r\n        \"name\": \"ADMIN\"\r\n    },\r\n    \"phoneNumber\": \"+79998881111\",\r\n    \"email\": \"danya.khadorich228@yandex.ru\",\r\n    \"isActive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user?login=client",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user"
+							],
+							"query": [
+								{
+									"key": "login",
+									"value": "client"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detailed",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/detailed?id=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"detailed"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Event",
+			"item": [
+				{
+					"name": "All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/event/all",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"event",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detailed",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/event/detailed?id=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"event",
+								"detailed"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Qwe свадьба\",\r\n    \"description\": \"Нужно всё круто сделать, чтобы QWE!!!\",\r\n    \"eventType\": {\r\n        \"id\": 1,\r\n        \"name\": \"Свадьба\"\r\n    },\r\n    \"actDate\": \"2023-12-30T21:00:00.000+00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/event",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"event"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

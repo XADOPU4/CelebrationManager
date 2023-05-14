@@ -14,7 +14,9 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UserInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,9 +43,9 @@ public class UserInfo {
 
     @ManyToMany
     @JoinTable(name = "userinfospecification",
-    joinColumns = {
-            @JoinColumn(name = "userinfoid")
-    }, inverseJoinColumns = {
+            joinColumns = {
+                    @JoinColumn(name = "userinfoid")
+            }, inverseJoinColumns = {
             @JoinColumn(name = "specid")
     })
     @ToString.Exclude
@@ -62,3 +64,4 @@ public class UserInfo {
         return getClass().hashCode();
     }
 }
+

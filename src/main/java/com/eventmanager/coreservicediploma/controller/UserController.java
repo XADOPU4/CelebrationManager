@@ -20,37 +20,39 @@ public class UserController {
     }
 
     @GetMapping("login")
-    public ResponseEntity<UserAuthDto> login(@RequestParam(name = "login") String login){
+    public ResponseEntity<UserAuthDto> login(@RequestParam(name = "login") String login) {
         User user = userService.getUserByLogin(login);
-        if (user == null){
+        if (user == null) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(UserAuthDto.toDto(user));
     }
 
     @GetMapping("detailed")
-    public ResponseEntity<UserDetailedDto> getDetailed(@RequestParam(name = "id") Long id){
+    public ResponseEntity<UserDetailedDto> getDetailed(@RequestParam(name = "id") Long id) {
         User user = userService.getUserDetailed(id);
-        if (user == null){
+        if (user == null) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(UserDetailedDto.toDto(user));
     }
 
     @PostMapping
-    public ResponseEntity<UserAuthDto> create(@RequestBody UserAuthDto userAuthDto){
-        User user = userService.createUser(userAuthDto);
-        return ResponseEntity.ok(UserAuthDto.toDto(user));
+    public ResponseEntity<UserAuthDto> create(@RequestBody UserAuthDto userAuthDto) {
+        User user = UserAuthDto.fromDto(userAuthDto);
+        User created = userService.createUser(user);
+        return ResponseEntity.ok(UserAuthDto.toDto(created));
     }
 
     @PutMapping
-    public ResponseEntity<UserAuthDto> update(@RequestBody UserAuthDto userAuthDto){
-        User user = userService.updateUser(userAuthDto);
-        return ResponseEntity.ok(UserAuthDto.toDto(user));
+    public ResponseEntity<UserAuthDto> update(@RequestBody UserAuthDto userAuthDto) {
+        User user = UserAuthDto.fromDto(userAuthDto);
+        User updated = userService.updateUser(user);
+        return ResponseEntity.ok(UserAuthDto.toDto(updated));
     }
 
     @DeleteMapping
-    public ResponseEntity<UserAuthDto> delete(@RequestParam(name = "login") String login){
+    public ResponseEntity<UserAuthDto> delete(@RequestParam(name = "login") String login) {
         User user = userService.deleteUserByLogin(login);
         return ResponseEntity.ok(UserAuthDto.toDto(user));
     }
