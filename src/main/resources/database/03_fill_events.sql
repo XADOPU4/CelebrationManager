@@ -15,14 +15,14 @@ VALUES (
         'Свадьба такс',
         (SELECT id FROM eventtype WHERE eventtype.name = 'Свадьба'),
         'Очень дорогая свадьба!!!',
-        '31.12.2023',
+        '2023-12-31',
         null,
         'CREATED'),
        (
         'День рождения Споти',
         (SELECT id FROM eventtype WHERE eventtype.name = 'Детский день рождения'),
         'День рождения маленького пса, нужно всё в ажуре!!!',
-        '14.08.2023',
+        '2023-12-31',
         null,
         'CREATED');
 
