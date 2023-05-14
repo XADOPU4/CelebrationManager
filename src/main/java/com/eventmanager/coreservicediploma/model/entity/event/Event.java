@@ -1,5 +1,6 @@
 package com.eventmanager.coreservicediploma.model.entity.event;
 
+import com.eventmanager.coreservicediploma.model.entity.resource.ResourceFact;
 import com.eventmanager.coreservicediploma.model.entity.userevent.UserEvent;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -62,6 +63,10 @@ public class Event {
     @OneToMany(mappedBy = "event")
     @ToString.Exclude
     private List<UserEvent> users;
+
+    @OneToMany(mappedBy = "event")
+    @ToString.Exclude
+    private List<ResourceFact> resources;
 
     @Override
     public boolean equals(Object o) {
