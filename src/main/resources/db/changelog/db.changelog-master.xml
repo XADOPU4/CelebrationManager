@@ -19,4 +19,7 @@
     <changeSet id="03_fill_events" author="Daniil Xadopu4">
         <sqlFile path="database/03_fill_events.sql"/>
     </changeSet>
+    <changeSet id="04_alter_usertostuff_table" author="Daniil Xadopu4">
+        <sqlFile path="database/04_alter_usertostuff_table.sql"/>
+    </changeSet>
 </databaseChangeLog>

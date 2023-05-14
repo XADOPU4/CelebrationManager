@@ -44,13 +44,13 @@ create table EventType
 create table Event
 (
     id           bigint primary key generated always as identity,
-    name         text        not null,
+    name         text not null,
     eventTypeId  bigint references eventType (id),
     description  text,
     creationDate date default now(),
     actDate      date,
     endDate      date,
-    status       text        not null
+    status       text not null
 -- status for event means whether it is completed or declined or active
 );
 
@@ -82,7 +82,7 @@ create table Task
     eventId      bigint references Event (id),
     title        text,
     text         text,
-    price        money   default 0.0,
+    price        decimal default 0,
     priority     decimal default 5.0,
     status       text not null,
     creationDate date    default now(),
@@ -109,6 +109,8 @@ create table StuffCategory
 (
     id          bigint primary key generated always as identity,
     name        text not null,
+    type        text not null default 'DISPOSABLE'
+        check (type in ('DISPOSABLE', 'REUSABLE')),
     description text
 );
 
@@ -117,21 +119,32 @@ create table Stuff
     id          bigint primary key generated always as identity,
     name        text not null,
     description text,
-    price       money,
+    price       decimal check ( price >= 0.0 ),
     categoryId  bigint references StuffCategory (id),
+    fileName    text
+);
+
+create table UserToStuff
+(
+    id          bigint primary key generated always as identity,
+    userId      bigint references "user" (id),
+    stuffId     bigint references Stuff (id),
+    description text,
+    price       decimal check ( price >= 0.0 ),
+    status      text check ( status in ('OK', 'DAMAGED', 'DESTROYED', 'DELETED') ),
     fileName    text
 );
 
 create table StuffFact
 (
-    id         bigint primary key generated always as identity,
-    stuffId    bigint references Stuff (id),
-    eventId    bigint references Event (id),
-    userId     bigint references "user" (id),
-    quantity   decimal default 1,
-    usageDate  date,
-    totalPrice money,
-    fileName   text
+    id            bigint primary key generated always as identity,
+    eventId       bigint references Event (id),
+    userToStuffId bigint references UserToStuff (id),
+    factPrice     decimal check ( factPrice >= 0.0 ),
+    quantity      decimal default 1 check ( quantity > 0.0 ),
+    usageDate     date,
+    totalPrice    dec generated always as ( factPrice * quantity ) stored,
+    fileName      text
 );
 
 create table Comment
