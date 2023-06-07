@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class UserService {
@@ -30,6 +32,16 @@ public class UserService {
     public User getUserDetailed(Long id) {
         log.info("Searching for user with id: {}", id);
         return userRepository.findUserById(id);
+    }
+
+    public List<User> getAllUsersDetailed() {
+        log.info("Searching for all detailed users");
+        return userRepository.findAll();
+    }
+
+    public User getUserListDetailedByEventId(Long eventId) {
+        log.info("Searching for users  with event  id: {}", eventId);
+        return userRepository.findUserById(eventId);
     }
 
     public boolean existsById(Long id) {

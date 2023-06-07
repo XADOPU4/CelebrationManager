@@ -1,5 +1,6 @@
 package com.eventmanager.coreservicediploma.controller;
 
+import com.eventmanager.coreservicediploma.controller.converter.EventConverter;
 import com.eventmanager.coreservicediploma.model.entity.event.Event;
 import com.eventmanager.coreservicediploma.model.entity.event.dto.EventDetailedDto;
 import com.eventmanager.coreservicediploma.model.entity.event.dto.EventDto;
@@ -19,16 +20,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@CrossOrigin
 @RestController
 @RequestMapping("event")
-@CrossOrigin
 public class EventController {
 
     private final EventService eventService;
+    private final EventConverter converter;
 
     @Autowired
-    public EventController(EventService eventService) {
+    public EventController(EventService eventService, EventConverter converter) {
         this.eventService = eventService;
+        this.converter = converter;
     }
 
     @GetMapping("all")
@@ -49,7 +52,7 @@ public class EventController {
 
     @PostMapping
     public ResponseEntity<EventDetailedDto> create(@RequestBody EventDetailedDto eventDetailedDto) {
-        Event event = EventDetailedDto.fromDto(eventDetailedDto);
+        Event event = converter.convert(eventDetailedDto);
         Event created = eventService.create(event);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -58,7 +61,7 @@ public class EventController {
 
     @PutMapping
     public ResponseEntity<EventDetailedDto> update(@RequestBody EventDetailedDto eventUpdateDetailedDto) {
-        Event event = EventDetailedDto.fromUpdateDto(eventUpdateDetailedDto);
+        Event event = converter.convert(eventUpdateDetailedDto);
         Event updated = eventService.update(event);
 
         return ResponseEntity.status(HttpStatus.OK)

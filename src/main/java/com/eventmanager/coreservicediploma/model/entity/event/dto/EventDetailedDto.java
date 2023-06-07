@@ -1,17 +1,21 @@
 package com.eventmanager.coreservicediploma.model.entity.event.dto;
 
 import com.eventmanager.coreservicediploma.model.entity.event.Event;
+import com.eventmanager.coreservicediploma.model.entity.userevent.UserEvent;
+import com.eventmanager.coreservicediploma.model.service.EventService;
+import com.eventmanager.coreservicediploma.model.service.UserService;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
 @Builder
-public class EventDetailedDto {
-
+public class EventDetailedDto
+{
     private Long id;
 
     private String name;
@@ -26,7 +30,8 @@ public class EventDetailedDto {
 
     private List<Long> userIds;
 
-    public static EventDetailedDto toDto(Event event) {
+    public static EventDetailedDto toDto(Event event)
+    {
         return EventDetailedDto.builder()
                 .id(event.getId())
                 .name(event.getName())
@@ -40,7 +45,8 @@ public class EventDetailedDto {
                 .build();
     }
 
-    public static Event fromDto(EventDetailedDto dto) {
+    public static Event fromDto(EventDetailedDto dto)
+    {
         return Event.builder()
                 .name(dto.getName())
                 .description(dto.getDescription())
@@ -49,7 +55,9 @@ public class EventDetailedDto {
                 .build();
     }
 
-    public static Event fromUpdateDto(EventDetailedDto dto) {
+    public static Event fromUpdateDto(EventDetailedDto dto)
+    {
+
         return Event.builder()
                 .id(dto.getId())
                 .name(dto.getName())

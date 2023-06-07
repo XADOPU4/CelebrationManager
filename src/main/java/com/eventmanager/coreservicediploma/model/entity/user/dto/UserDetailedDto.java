@@ -18,7 +18,7 @@ public class UserDetailedDto {
     private String login;
     private RoleDto role;
     private UserInfoDto userInfo;
-    private List<EventDto> events;
+    private List<Long> eventIds;
     private String phoneNumber;
     private String email;
     private Boolean isActive;
@@ -33,8 +33,8 @@ public class UserDetailedDto {
                 .login(user.getLogin())
                 .role(RoleDto.toDto(user.getRole()))
                 .userInfo(UserInfoDto.toDto(user.getUserInfo()))
-                .events(user.getEvents().stream()
-                        .map(userEvent -> EventDto.toDto(userEvent.getEvent()))
+                .eventIds(user.getEvents().stream()
+                        .map(userEvent -> userEvent.getEvent().getId())
                         .collect(Collectors.toList()))
                 .phoneNumber(user.getPhoneNumber())
                 .email(user.getEmail())

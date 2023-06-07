@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -35,6 +37,15 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(UserDetailedDto.toDto(user));
+    }
+
+    @GetMapping("all/detailed")
+    public ResponseEntity<List<UserDetailedDto>> getAllDetailed() {
+        List<User> users = userService.getAllUsersDetailed();
+        if (users == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(users.stream().map(UserDetailedDto::toDto).toList());
     }
 
     @PostMapping

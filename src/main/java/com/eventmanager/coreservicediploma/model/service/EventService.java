@@ -40,7 +40,6 @@ public class EventService {
 
     public Event create(Event event) {
         log.info("Creating event with name: {}", event.getName());
-        event.setId(null);
         event.setStatus(EventStatus.CREATED);
         return eventRepository.save(event);
     }
