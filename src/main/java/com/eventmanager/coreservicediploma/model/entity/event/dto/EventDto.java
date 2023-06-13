@@ -18,6 +18,7 @@ public class EventDto {
     private String name;
     private String description;
     private Date createdDate;
+    private Date actDate;
 
     public static EventDto toDto(Event event){
         if (event == null){
@@ -29,6 +30,7 @@ public class EventDto {
                 .name(event.getName())
                 .description(event.getDescription())
                 .createdDate(event.getCreatedDate())
+                .actDate(event.getActDate())
                 .build();
     }
 }
