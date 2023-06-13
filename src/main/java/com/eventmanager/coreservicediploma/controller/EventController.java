@@ -48,7 +48,7 @@ public class EventController
 
         if (userId != null){
             collected = events.stream().filter(e -> {
-                return e.getUsers().stream().anyMatch(u -> Objects.equals(u.getId(), userId));
+                return e.getUsers().stream().anyMatch(u -> Objects.equals(u.getUser().getId(), userId));
             }).collect(Collectors.toList());
         }
         else {
@@ -58,6 +58,38 @@ public class EventController
         return ResponseEntity.status(HttpStatus.OK)
                 .body(collected.stream()
                         .map(EventDto::toDto)
+                        .collect(Collectors.toList()));
+    }
+
+    @GetMapping("all/detailed")
+    public ResponseEntity<List<EventDetailedDto>> getAllDetailed(@RequestParam(name = "userId",required = false) Long userId,
+                                                                 @RequestParam(name = "status",required = false) String status
+    )
+    {
+        List<Event> events = eventService.getAll();
+
+        List<Event> collected;
+
+        if (userId != null){
+            collected = events.stream()
+                    .filter(e -> e.getUsers().stream().anyMatch(u -> Objects.equals(u.getUser().getId(), userId)))
+                    .collect(Collectors.toList());
+        }
+        else {
+            collected = events;
+        }
+
+        if (status != null){
+            UserEventStatus eventStatus = UserEventStatus.valueOf(status);
+
+            collected = collected.stream()
+                    .filter(e -> e.getUsers().stream().anyMatch(u -> eventStatus.equals(u.getStatus())))
+                    .collect(Collectors.toList());
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(collected.stream()
+                        .map(EventDetailedDto::toDto)
                         .collect(Collectors.toList()));
     }
 
