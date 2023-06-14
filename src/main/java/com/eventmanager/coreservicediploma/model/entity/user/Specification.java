@@ -37,6 +37,8 @@ public class Specification {
     @ManyToMany(mappedBy = "specifications")
     private List<UserInfo> userInfos;
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

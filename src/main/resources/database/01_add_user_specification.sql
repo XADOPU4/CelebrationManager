@@ -18,12 +18,13 @@ create table UserInfoSpecification
 
 create table Calendar
 (
-    id                      bigint primary key generated always as identity,
-    userInfoSpecificationId bigint references userinfospecification (id),
-    eventId                 bigint references Event (id),
-    busyDate                date not null,
-    hours                   decimal default 1.0,
-    price                   money,
-    calenderStatus          text not null,
-    description             text
+    id              bigint primary key generated always as identity,
+    userInfoId      bigint references userinfo (id),
+    specificationId bigint references Specification (id),
+    eventId         bigint references Event (id),
+    busyDate        date not null,
+    hours           decimal default 1.0,
+    price           money,
+    calenderStatus  text not null,
+    description     text
 );

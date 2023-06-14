@@ -1,6 +1,7 @@
 package com.eventmanager.coreservicediploma.model.entity.calendar;
 
 import com.eventmanager.coreservicediploma.model.entity.event.Event;
+import com.eventmanager.coreservicediploma.model.entity.user.Specification;
 import com.eventmanager.coreservicediploma.model.entity.user.User;
 import com.eventmanager.coreservicediploma.model.entity.user.UserInfo;
 import jakarta.persistence.*;
@@ -21,9 +22,14 @@ public class Calendar {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @ManyToOne
-    @JoinColumn(name = "userinfospecificationid", referencedColumnName = "id")
+    @JoinColumn(name = "userinfoid", referencedColumnName = "id")
     private UserInfo userInfo;
+
+    @ManyToOne
+    @JoinColumn(name = "specificationid", referencedColumnName = "id")
+    private Specification specification;
 
     @ManyToOne
     @JoinColumn(name = "eventid", referencedColumnName = "id")

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -17,7 +18,8 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserInfo {
+public class UserInfo
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -52,7 +54,8 @@ public class UserInfo {
     private List<Specification> specifications;
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         UserInfo userInfo = (UserInfo) o;
@@ -60,7 +63,8 @@ public class UserInfo {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return getClass().hashCode();
     }
 }
