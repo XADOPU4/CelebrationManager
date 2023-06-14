@@ -2,6 +2,7 @@ package com.eventmanager.coreservicediploma.model.entity.calendar;
 
 import com.eventmanager.coreservicediploma.model.entity.event.Event;
 import com.eventmanager.coreservicediploma.model.entity.user.User;
+import com.eventmanager.coreservicediploma.model.entity.user.UserInfo;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -21,8 +22,8 @@ public class Calendar {
     @Column(name = "id")
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "userid", referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name = "userinfospecificationid", referencedColumnName = "id")
+    private UserInfo userInfo;
 
     @ManyToOne
     @JoinColumn(name = "eventid", referencedColumnName = "id")

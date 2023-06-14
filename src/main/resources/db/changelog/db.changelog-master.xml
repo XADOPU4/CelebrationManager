@@ -25,4 +25,7 @@
     <changeSet id="05_fill_resources" author="Daniil Xadopu4">
         <sqlFile path="database/05_fill_resources.sql"/>
     </changeSet>
+    <changeSet id="06_fill_additional_users" author="Daniil Xadopu4">
+        <sqlFile path="database/06_fill_additional_users.sql"/>
+    </changeSet>
 </databaseChangeLog>

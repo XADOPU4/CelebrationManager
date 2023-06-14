@@ -63,17 +63,6 @@ create table UserToEvent
     description text
 );
 
-create table Calendar
-(
-    id             bigint primary key generated always as identity,
-    userId         bigint references "user" (id),
-    eventId        bigint references Event (id),
-    busyDate       date not null,
-    price          money,
-    calenderStatus text not null,
-    description    text
-);
-
 create table Task
 (
     id           bigint primary key generated always as identity,
