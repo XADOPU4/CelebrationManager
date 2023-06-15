@@ -30,7 +30,7 @@ create table UserInfo
     street             text,
     house              text,
     dateOfBirth        date,
-    rating             decimal default 0.0,
+    rating             decimal default 5.0,
     status             text
 -- status for user means its description in profile
 );

@@ -83,7 +83,16 @@ public class EventController
             UserEventStatus eventStatus = UserEventStatus.valueOf(status);
 
             collected = collected.stream()
-                    .filter(e -> e.getUsers().stream().anyMatch(u -> eventStatus.equals(u.getStatus())))
+                    .filter(e -> e.getUsers().stream().anyMatch(u -> {
+
+                        boolean result = true;
+
+                        if (userId != null){
+                            result = userId.equals(u.getUser().getId());
+                        }
+
+                        return result && eventStatus.equals(u.getStatus());
+                    }))
                     .collect(Collectors.toList());
         }
 

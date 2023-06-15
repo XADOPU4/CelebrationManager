@@ -27,10 +27,11 @@ VALUES (
         'CREATED');
 
 INSERT INTO usertoevent(userid, eventid, status, description)
-VALUES ((SELECT id FROM "user" WHERE "user".id = 2),
-        (SELECT id FROM event WHERE name = 'Свадьба такс'),
-        'APPROVED',
-        'Клиент, заказавший свадьбу такс!!'),
+VALUES
+--         ((SELECT id FROM "user" WHERE "user".id = 2),
+--         (SELECT id FROM event WHERE name = 'Свадьба такс'),
+--         'APPROVED',
+--         'Клиент, заказавший свадьбу такс!!'),
        ((SELECT id FROM "user" WHERE "user".id = 3),
         (SELECT id FROM event WHERE name = 'Свадьба такс'),
         'APPROVED',

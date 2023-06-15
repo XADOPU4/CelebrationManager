@@ -1,8 +1,8 @@
 INSERT INTO "user"(code, login, phonenumber, roleid, password, email)
-VALUES ('XXXX5', 'executor1', '+79998887701', 4, '1', 'a@yandex.ru'),
-       ('XXXX6', 'executor2', '+79998888802', 4, '1', 'b@yandex.ru'),
-       ('XXXX7', 'organizer2', '+79998887703', 3, '1', 'c@yandex.ru'),
-       ('XXXX8', 'executor3', '+79998888804', 4, '1', 'ex@yandex.ru');
+VALUES ('XXXX5', 'executor1', '+79998887701', 4, '1', 'ivanov.aa@yandex.ru'),
+       ('XXXX6', 'executor2', '+79998888802', 4, '1', 'petrov.sergey@yandex.ru'),
+       ('XXXX7', 'organizer2', '+79998887703', 4, '1', 'ostin@yandex.ru'),
+       ('XXXX8', 'executor3', '+79998888804', 4, '1', 'dyatlov@yandex.ru');
 
 INSERT INTO specification(name, roleid, description)
 VALUES ('Аниматор',
