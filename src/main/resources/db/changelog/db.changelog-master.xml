@@ -28,4 +28,7 @@
     <changeSet id="06_fill_additional_users" author="Daniil Xadopu4">
         <sqlFile path="database/06_fill_additional_users.sql"/>
     </changeSet>
+    <changeSet id="07_fill_calendar" author="Daniil Xadopu4">
+        <sqlFile path="database/07_fill_calendar.sql"/>
+    </changeSet>
 </databaseChangeLog>

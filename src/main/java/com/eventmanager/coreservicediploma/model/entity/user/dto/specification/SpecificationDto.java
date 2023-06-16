@@ -1,11 +1,13 @@
 package com.eventmanager.coreservicediploma.model.entity.user.dto.specification;
 
 import com.eventmanager.coreservicediploma.model.entity.user.Specification;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SpecificationDto {
 
     private Long id;
@@ -16,7 +18,12 @@ public class SpecificationDto {
         return SpecificationDto.builder()
                 .id(spec.getId())
                 .name(spec.getName())
-                .description(spec.getDescription())
+                .build();
+    }
+
+    public static SpecificationDto toShortDto(Specification spec) {
+        return SpecificationDto.builder()
+                .name(spec.getName())
                 .build();
     }
 

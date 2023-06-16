@@ -24,7 +24,7 @@ create table Calendar
     eventId         bigint references Event (id),
     busyDate        date not null,
     hours           decimal default 1.0,
-    price           money,
+    price           decimal,
     calenderStatus  text not null,
     description     text
 );
