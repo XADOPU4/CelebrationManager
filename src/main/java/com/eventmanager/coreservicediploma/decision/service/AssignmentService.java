@@ -73,16 +73,17 @@ public class AssignmentService
                 userInfos.size();
 
 
+
         double[][] costs =
-                new double[specificationCount][userCount];
+                new double[userCount][specificationCount];
 
-        for (int i = 0; i < specificationCount; i++)
+        for (int i = 0; i < userCount; i++)
         {
-            Specification currentSpec = specs.get(i);
+            UserInfo currentInfo = userInfos.get(i);
 
-            for (int j = 0; j < userCount; j++)
+            for (int j = 0; j < specificationCount; j++)
             {
-                UserInfo currentInfo = userInfos.get(j);
+                Specification currentSpec = specs.get(j);
 
                 Calendar currentCalendar = calendars.stream()
                         .filter(calendar -> calendar
@@ -98,11 +99,11 @@ public class AssignmentService
         }
 
 
-        MPVariable[][] x = new MPVariable[specificationCount][userCount];
+        MPVariable[][] x = new MPVariable[userCount][specificationCount];
 
-        for (int i = 0; i < specificationCount; i++)
+        for (int i = 0; i < userCount; i++)
         {
-            for (int j = 0; j < userCount; j++)
+            for (int j = 0; j < specificationCount; j++)
             {
                 x[i][j] = solver.makeIntVar(0, 1, "");
             }
@@ -110,19 +111,19 @@ public class AssignmentService
 
         // Constraints
         // Each worker is assigned to at most one task.
-        for (int i = 0; i < specificationCount; ++i)
+        for (int i = 0; i < userCount; ++i)
         {
             MPConstraint constraint = solver.makeConstraint(0, 1, "");
-            for (int j = 0; j < userCount; ++j)
+            for (int j = 0; j < specificationCount; ++j)
             {
                 constraint.setCoefficient(x[i][j], 1);
             }
         }
         // Each task is assigned to exactly one worker.
-        for (int j = 0; j < userCount; ++j)
+        for (int j = 0; j < specificationCount; ++j)
         {
             MPConstraint constraint = solver.makeConstraint(1, 1, "");
-            for (int i = 0; i < specificationCount; ++i)
+            for (int i = 0; i < userCount; ++i)
             {
                 constraint.setCoefficient(x[i][j], 1);
             }
@@ -130,9 +131,9 @@ public class AssignmentService
 
         // Целевая функция
         MPObjective objective = solver.objective();
-        for (int i = 0; i < specificationCount; ++i)
+        for (int i = 0; i < userCount; ++i)
         {
-            for (int j = 0; j < userCount; ++j)
+            for (int j = 0; j < specificationCount; ++j)
             {
                 objective.setCoefficient(x[i][j], costs[i][j]);
             }
@@ -149,17 +150,17 @@ public class AssignmentService
         {
             log.info("Total cost: " + objective.value() + "\n");
 
-            for (int i = 0; i < specificationCount; ++i)
+            for (int i = 0; i < userCount; ++i)
             {
-                for (int j = 0; j < userCount; ++j)
+                for (int j = 0; j < specificationCount; ++j)
                 {
                     // Test if x[i][j] is 0 or 1 (with tolerance for floating point
                     // arithmetic).
 
                     if (x[i][j].solutionValue() > 0.5)
                     {
-                        Specification specification = specs.get(i);
-                        UserInfo userInfo = userInfos.get(j);
+                        UserInfo userInfo = userInfos.get(i);
+                        Specification specification = specs.get(j);
 
                         if (Math.abs(costs[i][j] - CANNOT) < 0.5){
                             break;
