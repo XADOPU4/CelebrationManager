@@ -5,7 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,9 @@ public class Specification {
     private String description;
     @Column(name = "isactive")
     private boolean isActive;
+    @ManyToOne
+    @JoinColumn(name = "roleid", referencedColumnName = "id")
+    private Role role;
 
     @ToString.Exclude
     @ManyToMany(mappedBy = "specifications")
