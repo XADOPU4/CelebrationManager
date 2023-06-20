@@ -12,5 +12,7 @@ public interface UserEventRepository extends JpaRepository<UserEvent, Long>
     @Query("select u from  UserEvent u where u.event.id = :eventId")
     List<UserEvent> findUserEventsByEventId(@Param("eventId") Long eventId);
 
+    @Query("select u from UserEvent u where u.event.id = :eventId and u.user.id = :userId")
+    UserEvent findUserEventByEventIdAndUserId(@Param("eventId") Long eventId, @Param("userId") Long userId);
 
 }

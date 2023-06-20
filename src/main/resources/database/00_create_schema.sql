@@ -29,6 +29,8 @@ create table UserInfo
     city               text,
     street             text,
     house              text,
+    lat                decimal,
+    lon                decimal,
     dateOfBirth        date,
     rating             decimal default 5.0,
     status             text

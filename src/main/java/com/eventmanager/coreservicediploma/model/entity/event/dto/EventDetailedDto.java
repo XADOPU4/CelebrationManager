@@ -29,6 +29,7 @@ public class EventDetailedDto
     private String status;
 
     private List<Long> userIds;
+    private List<String> userIdStatuses;
 
     public static EventDetailedDto toDto(Event event)
     {
@@ -41,7 +42,14 @@ public class EventDetailedDto
                 .actDate(event.getActDate())
                 .endDate(event.getEndDate())
                 .status(event.getStatus().getName())
-                .userIds(event.getUsers() == null ? null : event.getUsers().stream().map(userEvent -> userEvent.getUser().getId()).collect(Collectors.toList()))
+                .userIds(event.getUsers() == null
+                        ? null
+                        : event.getUsers().stream()
+                        .map(userEvent -> userEvent.getUser().getId()).toList())
+                .userIdStatuses(event.getUsers() == null
+                        ? null
+                        : event.getUsers().stream()
+                        .map(userEvent -> userEvent.getStatus().getName()).toList())
                 .build();
     }
 

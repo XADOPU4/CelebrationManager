@@ -48,6 +48,14 @@ public class UserEvent
     @Column(name = "status")
     private UserEventStatus status;
 
+
+    public UserEvent(User user, Event event, UserEventStatus status)
+    {
+        this.user = user;
+        this.event = event;
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o)
     {

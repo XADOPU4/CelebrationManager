@@ -128,6 +128,17 @@ public class EventController
                 .body(EventDetailedDto.toDto(created));
     }
 
+    @PostMapping("/manage-user")
+    public ResponseEntity<EventDetailedDto> changeUserStatus(@RequestParam(value = "status") UserEventStatus status,
+                                                             @RequestParam(value = "eventId") Long eventId,
+                                                             @RequestParam(value = "userId") Long userId)
+    {
+        Event event = eventService.addUser(userId, eventId, status);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(EventDetailedDto.toDto(event));
+    }
+
     @PutMapping
     public ResponseEntity<EventDetailedDto> update(@RequestBody EventDetailedDto eventUpdateDetailedDto)
     {

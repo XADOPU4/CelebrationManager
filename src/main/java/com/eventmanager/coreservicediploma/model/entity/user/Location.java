@@ -19,4 +19,8 @@ public class Location {
     private String street;
     @Column(name = "house")
     private String house;
+    @Column(name = "lat")
+    private String lat;
+    @Column(name = "lon")
+    private String lon;
 }
