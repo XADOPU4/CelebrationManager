@@ -1,4 +1,4 @@
-package com.eventmanager.coreservicediploma.model.entity.decision;
+package com.eventmanager.coreservicediploma.model.entity.decision.spec;
 
 import com.eventmanager.coreservicediploma.model.entity.user.Specification;
 import com.eventmanager.coreservicediploma.model.entity.user.UserInfo;

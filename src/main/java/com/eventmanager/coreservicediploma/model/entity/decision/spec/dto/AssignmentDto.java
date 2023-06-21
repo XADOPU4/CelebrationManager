@@ -1,8 +1,6 @@
-package com.eventmanager.coreservicediploma.model.entity.decision.dto;
+package com.eventmanager.coreservicediploma.model.entity.decision.spec.dto;
 
-import com.eventmanager.coreservicediploma.model.entity.decision.Assignment;
-import com.eventmanager.coreservicediploma.model.entity.user.Specification;
-import com.eventmanager.coreservicediploma.model.entity.user.UserInfo;
+import com.eventmanager.coreservicediploma.model.entity.decision.spec.Assignment;
 import com.eventmanager.coreservicediploma.model.entity.user.dto.UserInfoDto;
 import com.eventmanager.coreservicediploma.model.entity.user.dto.specification.SpecificationDto;
 import com.fasterxml.jackson.annotation.JsonInclude;

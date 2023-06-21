@@ -2,14 +2,15 @@ package com.eventmanager.coreservicediploma.decision.service;
 
 import com.eventmanager.coreservicediploma.model.entity.calendar.Calendar;
 import com.eventmanager.coreservicediploma.model.entity.calendar.CalendarStatus;
-import com.eventmanager.coreservicediploma.model.entity.decision.Assignment;
-import com.eventmanager.coreservicediploma.model.entity.decision.AssignmentDecision;
+import com.eventmanager.coreservicediploma.model.entity.decision.route.RouteAssignment;
+import com.eventmanager.coreservicediploma.model.entity.decision.route.RouteAssignmentDecision;
+import com.eventmanager.coreservicediploma.model.entity.decision.spec.Assignment;
+import com.eventmanager.coreservicediploma.model.entity.decision.spec.AssignmentDecision;
 import com.eventmanager.coreservicediploma.model.entity.decision.AssignmentStatus;
+import com.eventmanager.coreservicediploma.model.entity.user.Location;
 import com.eventmanager.coreservicediploma.model.entity.user.Specification;
-import com.eventmanager.coreservicediploma.model.entity.user.User;
 import com.eventmanager.coreservicediploma.model.entity.user.UserInfo;
 import com.eventmanager.coreservicediploma.model.repository.CalendarRepository;
-import com.eventmanager.coreservicediploma.model.service.UserService;
 import com.google.ortools.Loader;
 import com.google.ortools.linearsolver.MPConstraint;
 import com.google.ortools.linearsolver.MPObjective;
@@ -22,11 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -71,7 +68,6 @@ public class AssignmentService
         //Горизонталь - task
         int userCount =
                 userInfos.size();
-
 
 
         double[][] costs =
@@ -162,7 +158,8 @@ public class AssignmentService
                         UserInfo userInfo = userInfos.get(i);
                         Specification specification = specs.get(j);
 
-                        if (Math.abs(costs[i][j] - CANNOT) < 0.5){
+                        if (Math.abs(costs[i][j] - CANNOT) < 0.5)
+                        {
                             break;
                         }
 
@@ -175,7 +172,8 @@ public class AssignmentService
                 }
             }
 
-            if (decision.getDecision().size() == 0){
+            if (decision.getDecision().size() == 0)
+            {
                 decision.setStatus(AssignmentStatus.BAD);
             }
         }
@@ -188,11 +186,168 @@ public class AssignmentService
         return decision;
     }
 
-    @Data
-    @AllArgsConstructor
-    static class InfoCost
+    public RouteAssignmentDecision getRouteSolution(List<Location> locations)
     {
-        private UserInfo userInfo;
-        private double cost;
+
+        MPSolver solver = MPSolver.createSolver("SCIP");
+
+        if (solver == null)
+        {
+            log.error("Could not create solver SCIP");
+            throw new RuntimeException("Could not create solver SCIP");
+        }
+
+        RouteAssignmentDecision decision = new RouteAssignmentDecision();
+        decision.setStatus(AssignmentStatus.OPTIMAL);
+
+
+        if (locations.size() < 2)
+        {
+            log.error("Cannot calculate route!");
+            throw new RuntimeException("Too few points!");
+        }
+
+        decision.setStart(locations.stream().findFirst().orElseThrow());
+        decision.setFinish(locations.get(locations.size() - 1));
+
+
+        List<Location> targets = locations.subList(1, locations.size());
+        List<Location> sources = locations.subList(0, locations.size() - 1);
+
+
+        //Вертикаль - worker
+        int sourceCount = sources.size();
+        //Горизонталь - task
+        int targetCount = targets.size();
+
+        double[][] costs = new double[targetCount][sourceCount];
+
+
+        for (int i = 0; i < targetCount; i++)
+        {
+            Location target = targets.get(i);
+
+            for (int j = 0; j < sourceCount; j++)
+            {
+                Location source = sources.get(j);
+
+                costs[i][j] = getRouteCost(target, source);
+            }
+        }
+
+
+        MPVariable[][] x = new MPVariable[targetCount][sourceCount];
+
+        for (int i = 0; i < targetCount; i++)
+        {
+            for (int j = 0; j < sourceCount; j++)
+            {
+                x[i][j] = solver.makeIntVar(0, 1, "");
+            }
+        }
+
+        // Constraints
+        // Each worker is assigned to at most one task.
+        for (int i = 0; i < targetCount; ++i)
+        {
+            MPConstraint constraint = solver.makeConstraint(0, 1, "");
+            for (int j = 0; j < sourceCount; ++j)
+            {
+                constraint.setCoefficient(x[i][j], 1);
+            }
+        }
+        // Each task is assigned to exactly one worker.
+        for (int j = 0; j < sourceCount; ++j)
+        {
+            MPConstraint constraint = solver.makeConstraint(1, 1, "");
+            for (int i = 0; i < targetCount; ++i)
+            {
+                constraint.setCoefficient(x[i][j], 1);
+            }
+        }
+
+        // Целевая функция
+        MPObjective objective = solver.objective();
+        for (int i = 0; i < targetCount; ++i)
+        {
+            for (int j = 0; j < sourceCount; ++j)
+            {
+                objective.setCoefficient(x[i][j], costs[i][j]);
+            }
+        }
+        objective.setMinimization();
+
+
+        // Solve
+        MPSolver.ResultStatus resultStatus = solver.solve();
+
+        // Print solution.
+        // Check that the problem has a feasible solution.
+        if (resultStatus == MPSolver.ResultStatus.OPTIMAL || resultStatus == MPSolver.ResultStatus.FEASIBLE)
+        {
+            log.info("Total cost: " + objective.value() + "\n");
+
+            for (int i = 0; i < targetCount; ++i)
+            {
+                for (int j = 0; j < sourceCount; ++j)
+                {
+                    // Test if x[i][j] is 0 or 1 (with tolerance for floating point
+                    // arithmetic).
+
+                    if (x[i][j].solutionValue() > 0.5)
+                    {
+                        Location target = targets.get(i);
+                        Location source = sources.get(j);
+
+                        RouteAssignment routeAssignment = new RouteAssignment(source, target, costs[i][j], null);
+                        decision.getDecision().add(routeAssignment);
+                        decision.increaseCost(routeAssignment.getCost());
+
+                        log.info("From " + source.getStreet() + " to " + target.getStreet() + ".  Cost = " + costs[i][j]);
+                    }
+                }
+            }
+
+            if (decision.getDecision().size() == 0)
+            {
+                decision.setStatus(AssignmentStatus.BAD);
+            }
+        }
+        else
+        {
+            log.warn("No solution found.");
+            decision.setStatus(AssignmentStatus.BAD);
+        }
+
+        return decision;
+    }
+
+    private double getRouteCost(Location target, Location source)
+    {
+        double EARTH_RADIUS = 6372795;
+        double PI = Math.PI;
+
+
+        double latFrom = Double.parseDouble(source.getLat()) * PI / 180;
+        double latTo = Double.parseDouble(target.getLat()) * PI / 180;
+
+        double lonFrom = Double.parseDouble(source.getLon()) * PI / 180;
+        double lonTo = Double.parseDouble(source.getLon()) * PI / 180;
+
+        double cosLatFrom = Math.cos(latFrom);
+        double cosLatTo = Math.cos(latTo);
+        double sinLatFrom = Math.sin(latFrom);
+        double sinLatTo = Math.sin(latTo);
+
+        double delta = lonTo - lonFrom;
+        double cosDelta = Math.cos(delta);
+        double sinDelta = Math.sin(delta);
+
+        double x = sinLatFrom * sinLatTo + cosLatFrom * cosLatTo * cosDelta;
+        double y = Math.sqrt(Math.pow(cosLatTo * sinDelta, 2) + Math.pow(cosLatFrom * sinLatTo - sinLatFrom * cosLatTo * cosDelta, 2));
+
+        double ad = Math.atan2(y, x);
+
+        return ad * EARTH_RADIUS;
     }
 }

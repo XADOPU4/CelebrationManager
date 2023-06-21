@@ -1,6 +1,7 @@
-package com.eventmanager.coreservicediploma.model.entity.decision;
+package com.eventmanager.coreservicediploma.model.entity.decision.spec;
 
 
+import com.eventmanager.coreservicediploma.model.entity.decision.AssignmentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
