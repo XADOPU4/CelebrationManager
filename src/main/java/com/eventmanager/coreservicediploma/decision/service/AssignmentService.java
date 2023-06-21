@@ -231,7 +231,12 @@ public class AssignmentService
             {
                 Location source = sources.get(j);
 
-                costs[i][j] = getRouteCost(target, source);
+                if (source.equals(target)){
+                    costs[i][j] = CANNOT;
+                }
+                else {
+                    costs[i][j] = getRouteCost(target, source);
+                }
             }
         }
 
