@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @Data
 @Builder
 @Slf4j
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDetailedDto {
     private Long id;
     private String login;

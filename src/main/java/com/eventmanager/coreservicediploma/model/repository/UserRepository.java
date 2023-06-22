@@ -15,6 +15,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @EntityGraph(value = "auth", type = EntityGraph.EntityGraphType.FETCH)
     User findUserByLogin(String login);
 
+    @EntityGraph(value = "auth", type = EntityGraph.EntityGraphType.FETCH)
+    User findUserByLoginAndPassword(String login, String password);
+
     @EntityGraph(value = "business", type = EntityGraph.EntityGraphType.FETCH)
     User findUserById(Long id);
 

@@ -24,6 +24,11 @@ public class UserService {
         return userRepository.findUserByLogin(login);
     }
 
+    public User getUserByLoginAndPassword(String login, String password) {
+        log.info("Searching for user with login: {} and password: {}", login, password);
+        return userRepository.findUserByLoginAndPassword(login, password);
+    }
+
     public User getUserById(Long id) {
         log.info("Searching for user with id: {}", id);
         return userRepository.findUserById(id);
