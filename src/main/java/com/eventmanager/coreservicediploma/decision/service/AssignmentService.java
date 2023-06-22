@@ -223,29 +223,35 @@ public class AssignmentService
         double[][] costs = new double[targetCount][sourceCount];
 
 
-        for (int i = 0; i < targetCount; i++)
+        for (int i = 0; i < sourceCount; i++)
         {
-            Location target = targets.get(i);
+            Location source = sources.get(i);
 
-            for (int j = 0; j < sourceCount; j++)
+
+            for (int j = 0; j < targetCount; j++)
             {
-                Location source = sources.get(j);
+                Location target = targets.get(j);
 
-                if (source.equals(target)){
+                if (source.equals(target)
+
+//                        || (source.equals(decision.getStart()) && target.equals(decision.getFinish()))
+                ){
                     costs[i][j] = CANNOT;
                 }
                 else {
-                    costs[i][j] = getRouteCost(target, source);
+                    costs[i][j] = getRouteCost(source, target);
                 }
+
+                log.info("Cost from " + sources.get(i) + " to" + targets.get(j) + " = " + costs[i][j]);
             }
         }
 
 
         MPVariable[][] x = new MPVariable[targetCount][sourceCount];
 
-        for (int i = 0; i < targetCount; i++)
+        for (int i = 0; i < sourceCount; i++)
         {
-            for (int j = 0; j < sourceCount; j++)
+            for (int j = 0; j < targetCount; j++)
             {
                 x[i][j] = solver.makeIntVar(0, 1, "");
             }
@@ -253,19 +259,20 @@ public class AssignmentService
 
         // Constraints
         // Each worker is assigned to at most one task.
-        for (int i = 0; i < targetCount; ++i)
+        for (int i = 0; i < sourceCount; ++i)
         {
             MPConstraint constraint = solver.makeConstraint(0, 1, "");
-            for (int j = 0; j < sourceCount; ++j)
+            for (int j = 0; j < targetCount; ++j)
             {
                 constraint.setCoefficient(x[i][j], 1);
             }
         }
+
         // Each task is assigned to exactly one worker.
-        for (int j = 0; j < sourceCount; ++j)
+        for (int j = 0; j < targetCount; ++j)
         {
             MPConstraint constraint = solver.makeConstraint(1, 1, "");
-            for (int i = 0; i < targetCount; ++i)
+            for (int i = 0; i < sourceCount; ++i)
             {
                 constraint.setCoefficient(x[i][j], 1);
             }
@@ -273,9 +280,9 @@ public class AssignmentService
 
         // Целевая функция
         MPObjective objective = solver.objective();
-        for (int i = 0; i < targetCount; ++i)
+        for (int i = 0; i < sourceCount; ++i)
         {
-            for (int j = 0; j < sourceCount; ++j)
+            for (int j = 0; j < targetCount; ++j)
             {
                 objective.setCoefficient(x[i][j], costs[i][j]);
             }
@@ -292,23 +299,33 @@ public class AssignmentService
         {
             log.info("Total cost: " + objective.value() + "\n");
 
-            for (int i = 0; i < targetCount; ++i)
+            for (int i = 0; i < sourceCount; ++i)
             {
-                for (int j = 0; j < sourceCount; ++j)
+                for (int j = 0; j < targetCount; ++j)
                 {
                     // Test if x[i][j] is 0 or 1 (with tolerance for floating point
                     // arithmetic).
 
                     if (x[i][j].solutionValue() > 0.5)
                     {
-                        Location target = targets.get(i);
-                        Location source = sources.get(j);
+                        Location source = sources.get(i);
+                        Location target = targets.get(j);
 
                         RouteAssignment routeAssignment = new RouteAssignment(source, target, costs[i][j], null);
                         decision.getDecision().add(routeAssignment);
                         decision.increaseCost(routeAssignment.getCost());
 
+//                        if (source.equals(decision.getStart())){
+//                            log.info("From " + "start" + " to " + target.getStreet() + ".  Cost = " + costs[i][j]);
+//                        }
+//
+//                        if (target.equals(decision.getFinish())){
+//                            log.info("From " + source.getStreet() + " to " + "finish" + ".  Cost = " + costs[i][j]);
+//                            continue;
+//                        }
+
                         log.info("From " + source.getStreet() + " to " + target.getStreet() + ".  Cost = " + costs[i][j]);
+
                     }
                 }
             }

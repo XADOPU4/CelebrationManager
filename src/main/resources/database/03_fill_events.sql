@@ -1,8 +1,6 @@
 INSERT INTO eventtype (name)
 VALUES ('Свадьба'),
-       ('Корпоратив'),
-       ('Детский день рождения'),
-       ('Юбилей 50+');
+       ('Детский день рождения');
 
 INSERT INTO event(name,
                   eventtypeid,
