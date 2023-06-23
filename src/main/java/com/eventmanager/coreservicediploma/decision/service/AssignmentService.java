@@ -234,7 +234,7 @@ public class AssignmentService
 
                 if (source.equals(target)
 
-//                        || (source.equals(decision.getStart()) && target.equals(decision.getFinish()))
+                        || (source.equals(decision.getStart()) && target.equals(decision.getFinish()))
                 ){
                     costs[i][j] = CANNOT;
                 }
@@ -340,6 +340,22 @@ public class AssignmentService
             log.warn("No solution found.");
             decision.setStatus(AssignmentStatus.BAD);
         }
+
+        List<RouteAssignment> assignments = decision.getDecision();
+
+        assignments.sort((f,s) -> {
+            if (f.getFrom().equals(s.getTo())){
+                return 1;
+            }
+
+            if (f.getTo().equals(s.getFrom())){
+                return -1;
+            }
+
+            return 0;
+        });
+
+        decision.setDecision(assignments);
 
         return decision;
     }
