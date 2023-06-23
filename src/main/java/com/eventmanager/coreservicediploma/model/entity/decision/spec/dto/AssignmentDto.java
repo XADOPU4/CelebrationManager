@@ -11,6 +11,7 @@ import lombok.Data;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AssignmentDto {
+    private Long userId;
     private SpecificationDto specification;
     private UserInfoDto userInfo;
 
@@ -20,6 +21,7 @@ public class AssignmentDto {
     public static AssignmentDto toDto(Assignment assignment){
         return builder()
                 .cost(assignment.getCost())
+                .userId(assignment.getUserInfo().getUser().getId())
                 .userInfo(UserInfoDto.toDto(assignment.getUserInfo()))
                 .specification(SpecificationDto.toDto(assignment.getSpecification()))
                 .description(assignment.getDescription())
