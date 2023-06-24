@@ -13,6 +13,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/user")
@@ -32,14 +34,14 @@ public class UserController {
         response.setStatus(LoginResponse.LoginStatus.OK);
 
         String login = auth.getLogin();
-        if (login == null){
+        if (login == null) {
             response.setStatus(LoginResponse.LoginStatus.FAILED);
             response.setMessage("Укажите логин!");
             return ResponseEntity.ok(response);
         }
 
         String password = auth.getPassword();
-        if (password == null){
+        if (password == null) {
             response.setStatus(LoginResponse.LoginStatus.FAILED);
             response.setMessage("Укажите пароль!");
             return ResponseEntity.ok(response);
@@ -76,11 +78,17 @@ public class UserController {
     }
 
     @GetMapping("all/detailed")
-    public ResponseEntity<List<UserDetailedDto>> getAllDetailed() {
+    public ResponseEntity<List<UserDetailedDto>> getAllDetailed(
+            @RequestParam(value = "eventId", required = false) Long eventId) {
         List<User> users = userService.getAllUsersDetailed();
-        if (users == null) {
-            return ResponseEntity.badRequest().build();
+
+        if (eventId != null) {
+            users = users.stream()
+                    .filter(u -> u.getEvents().stream()
+                            .anyMatch(ev -> eventId.equals(ev.getEvent().getId())))
+                    .collect(Collectors.toList());
         }
+
         return ResponseEntity.ok(users.stream().map(UserDetailedDto::toDto).toList());
     }
 

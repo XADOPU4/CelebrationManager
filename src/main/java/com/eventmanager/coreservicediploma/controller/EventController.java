@@ -119,7 +119,7 @@ public class EventController
         {
             List<UserEvent> users = event.getUsers();
             users.forEach((u) -> {
-                u.setStatus(UserEventStatus.INVITED);
+                u.setStatus(UserEventStatus.APPROVED);
             });
         }
         Event created = eventService.create(event);
