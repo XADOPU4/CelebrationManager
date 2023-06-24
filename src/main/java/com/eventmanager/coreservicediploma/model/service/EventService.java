@@ -87,11 +87,11 @@ public class EventService {
         UserEvent ue = userEventRepository.findUserEventByEventIdAndUserId(eventId, userId);
         if (ue == null){
             ue = new UserEvent(user, event, status);
-            event.getUsers().add(ue);
         }
         else {
             ue.setStatus(status);
         }
+        UserEvent userEvent = userEventRepository.save(ue);
 
         log.info("Updating event with id: {}", event.getId());
         return eventRepository.save(event);
