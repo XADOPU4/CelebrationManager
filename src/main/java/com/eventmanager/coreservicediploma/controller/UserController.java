@@ -79,13 +79,20 @@ public class UserController {
 
     @GetMapping("all/detailed")
     public ResponseEntity<List<UserDetailedDto>> getAllDetailed(
-            @RequestParam(value = "eventId", required = false) Long eventId) {
+            @RequestParam(value = "eventId", required = false) Long eventId,
+            @RequestParam(value = "role", required = false) String role) {
         List<User> users = userService.getAllUsersDetailed();
 
         if (eventId != null) {
             users = users.stream()
                     .filter(u -> u.getEvents().stream()
                             .anyMatch(ev -> eventId.equals(ev.getEvent().getId())))
+                    .collect(Collectors.toList());
+        }
+
+        if (role != null){
+            users = users.stream()
+                    .filter(u -> role.equals(u.getRole().getName()))
                     .collect(Collectors.toList());
         }
 
